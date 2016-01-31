@@ -7,6 +7,8 @@ set expandtab
 set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 let g:ackprg = 'ag --nogroup --nocolor --column'
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
