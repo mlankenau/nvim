@@ -1,4 +1,7 @@
+set background=dark
 sy on
+set spell
+set nowrap
 set hidden
 set number
 set tabstop=2
@@ -34,7 +37,9 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'airblade/vim-gitgutter'
-
+NeoBundle 'henrik/vim-ruby-runner'
+NeoBundle 'skwp/vim-rspec'
+NeoBundle 'Shougo/vimshell'
 call neobundle#end()
 
 " Required:
@@ -49,9 +54,22 @@ nmap \n :NERDTreeToggle<CR>
 nmap <C-n> :NERDTreeToggle<CR>
 nmap \b :BufferGatorToggle<CR>
 nmap <C-b> :BufferGatorToggle<CR>
-map , :vertical resize -5<CR>
-map . :vertical resize +5<CR>
+map <C-,> :vertical resize -5<CR>
+map <C-.> :vertical resize +5<CR>
 nnoremap <leader>a :Ack<space>
+nmap \w <C-w>
+vmap iq i"
+nmap <leader>csq f"r'F"r'
+nmap <leader>el :execute getline(".")<CR>
+
+" window resize
+nmap <C-s><Up> :resize -5<CR>
+nmap <C-s><Down> :resize +5<CR>
+nmap <C-s><Left> :vertical resize -10<CR>
+nmap <C-s><Right> :vertical resize +10<CR>
+nmap \rs :RunSpec<CR>
+
+let g:RspecBin="bundle exec rspec"
 
 "function CheckElixir()
 "  let result = system("mix compile")
