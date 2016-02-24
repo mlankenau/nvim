@@ -68,8 +68,19 @@ nmap <C-s><Down> :resize +5<CR>
 nmap <C-s><Left> :vertical resize -10<CR>
 nmap <C-s><Right> :vertical resize +10<CR>
 nmap \rs :RunSpec<CR>
+nmap \sc :so coverage.vim<CR>
+nmap \bb korequire 'byebug'; byebug<ESC>
+
+nmap <C-Left> :wincmd h<CR>
+nmap <C-Right> :wincmd l<CR>
+nmap <C-Up> :wincmd k<CR>
+nmap <C-Down> :wincmd j<CR>
+
+tnoremap <Esc> <C-\><C-n>
+
 
 let g:RspecBin="bundle exec rspec"
+
 
 "function CheckElixir()
 "  let result = system("mix compile")
