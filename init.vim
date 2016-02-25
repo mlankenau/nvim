@@ -1,5 +1,4 @@
 set background=dark
-sy on
 set spell
 set nowrap
 set hidden
@@ -9,9 +8,12 @@ set shiftwidth=2
 set expandtab
 set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
-let g:ackprg = 'ag --nogroup --nocolor --column'
-filetype plugin on
 set omnifunc=syntaxcomplete#Complete
+filetype plugin on
+sy on
+
+let g:RubyRunner_key = "xzy"
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
@@ -19,10 +21,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
 
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jeetsukumaran/vim-buffergator'
@@ -81,6 +79,32 @@ tnoremap <Esc> <C-\><C-n>
 
 let g:RspecBin="bundle exec rspec"
 
+" depending on the filename (ruby file or spec run ruby or spec runner)
+function RunMyRuby()
+  let filename = bufname('%')
+  if  filename =~ 'spec.rb'
+    execute(":RunSpec")
+  else
+    execute(":RunRuby")
+  endif
+endfunction
+
+map \r :call RunMyRuby()<CR>
+
+function GoSpec()
+  let filename = bufname('%')
+  let parts = matchlist(filename,'\(.*\)\(.rb\)')
+  if len(parts) > 1
+    let spec_file = 'spec/' . parts[1] . '_spec.rb'
+    execute("e " . spec_file)
+  endif
+  let parts = matchlist(filename,'spec/\(.*\)\(_spec.rb\)')
+  if len(parts) > 1
+    let spec_file = parts[1] . '.rb'
+    execute("e " . spec_file)
+  endif
+endfunction
+map \gs :call GoSpec()<CR>
 
 "function CheckElixir()
 "  let result = system("mix compile")
@@ -97,4 +121,4 @@ let g:RspecBin="bundle exec rspec"
 "endfunction
 "autocmd BufWritePost *.{ex,exs} call CheckElixir()
 
-autocmd! BufWritePost * Neomake
+autocmd! BufWritePost *.{rb,rake} Neomake
