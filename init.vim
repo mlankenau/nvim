@@ -92,17 +92,23 @@ endfunction
 map \r :call RunMyRuby()<CR>
 
 function GoSpec()
+  let strategies = [
+        \ {'pattern': 'app/models/\(.*\)\(.rb\)', 'prefix': 'spec/models/', 'suffix': '_spec.rb'},
+        \ {'pattern': '\(.*\)\(.rb\)', 'prefix': 'spec/', 'suffix': '_spec.rb'},
+        \ {'pattern': 'spec/models/\(.*\)\(_spec.rb\)', 'prefix': 'app/models/', 'suffix': '.rb'},
+        \ {'pattern': 'spec/\(.*\)\(_spec.rb\)', 'prefix': '', 'suffix': '.rb'} ]
   let filename = bufname('%')
-  let parts = matchlist(filename,'\(.*\)\(.rb\)')
-  if len(parts) > 1
-    let spec_file = 'spec/' . parts[1] . '_spec.rb'
-    execute("e " . spec_file)
-  endif
-  let parts = matchlist(filename,'spec/\(.*\)\(_spec.rb\)')
-  if len(parts) > 1
-    let spec_file = parts[1] . '.rb'
-    execute("e " . spec_file)
-  endif
+
+  for p in strategies
+    let parts = matchlist(filename, p.pattern)
+    if len(parts) > 1
+      let spec_file = p.prefix . parts[1] . p.suffix
+      if filereadable(spec_file)
+        execute("e " . spec_file)
+        return
+      endif
+    endif
+  endfor
 endfunction
 map \gs :call GoSpec()<CR>
 
