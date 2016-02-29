@@ -67,7 +67,7 @@ nmap <C-s><Left> :vertical resize -10<CR>
 nmap <C-s><Right> :vertical resize +10<CR>
 nmap \rs :RunSpec<CR>
 nmap \sc :so coverage.vim<CR>
-nmap \bb korequire 'byebug'; byebug<ESC>
+nmap \ibb korequire 'byebug'; byebug<ESC>
 
 nmap <C-Left> :wincmd h<CR>
 nmap <C-Right> :wincmd l<CR>
