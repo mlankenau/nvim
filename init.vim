@@ -9,11 +9,13 @@ set expandtab
 set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
+set noswapfile
 filetype plugin on
 sy on
 
-let g:RubyRunner_key = "xzy"
+let g:RubyRunner_key = "\xzy"
 let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
@@ -38,6 +40,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'henrik/vim-ruby-runner'
 NeoBundle 'skwp/vim-rspec'
 NeoBundle 'Shougo/vimshell'
+NeoBundle 'majutsushi/tagbar'
 call neobundle#end()
 
 " Required:
@@ -59,6 +62,8 @@ nmap \w <C-w>
 vmap iq i"
 nmap <leader>csq f"r'F"r'
 nmap <leader>el :execute getline(".")<CR>
+" ensure that pasting in visual mode does not overwrite reg
+xnoremap p pgvy 
 
 " window resize
 nmap <C-s><Up> :resize -5<CR>
@@ -75,7 +80,7 @@ nmap <C-Up> :wincmd k<CR>
 nmap <C-Down> :wincmd j<CR>
 
 tnoremap <Esc> <C-\><C-n>
-
+nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
 let g:RspecBin="bundle exec rspec"
 
@@ -94,8 +99,12 @@ map \r :call RunMyRuby()<CR>
 function GoSpec()
   let strategies = [
         \ {'pattern': 'app/models/\(.*\)\(.rb\)', 'prefix': 'spec/models/', 'suffix': '_spec.rb'},
+        \ {'pattern': 'app/services/\(.*\)\(.rb\)', 'prefix': 'spec/services/', 'suffix': '_spec.rb'},
+        \ {'pattern': 'app/controllers/\(.*\)\(.rb\)', 'prefix': 'spec/controllers/', 'suffix': '_spec.rb'},
         \ {'pattern': '\(.*\)\(.rb\)', 'prefix': 'spec/', 'suffix': '_spec.rb'},
         \ {'pattern': 'spec/models/\(.*\)\(_spec.rb\)', 'prefix': 'app/models/', 'suffix': '.rb'},
+        \ {'pattern': 'spec/services/\(.*\)\(_spec.rb\)', 'prefix': 'app/services/', 'suffix': '.rb'},
+        \ {'pattern': 'spec/controllers/\(.*\)\(_spec.rb\)', 'prefix': 'app/controllers/', 'suffix': '.rb'},
         \ {'pattern': 'spec/\(.*\)\(_spec.rb\)', 'prefix': '', 'suffix': '.rb'} ]
   let filename = bufname('%')
 
@@ -127,4 +136,6 @@ map \gs :call GoSpec()<CR>
 "endfunction
 "autocmd BufWritePost *.{ex,exs} call CheckElixir()
 
-autocmd! BufWritePost *.{rb,rake} Neomake
+autocmd! BufWritePost *.{rb,rake,js} Neomake
+au BufNewFile,BufRead *.god set filetype=ruby
+
