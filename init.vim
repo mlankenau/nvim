@@ -138,4 +138,3 @@ map \gs :call GoSpec()<CR>
 
 autocmd! BufWritePost *.{rb,rake,js} Neomake
 au BufNewFile,BufRead *.god set filetype=ruby
-
