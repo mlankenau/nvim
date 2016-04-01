@@ -24,6 +24,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'MarcWeber/vim-addon-mw-utils' " required by snipmate
+NeoBundle 'tomtom/tlib_vim'              " required by snipmate
+NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jeetsukumaran/vim-buffergator'
 NeoBundle 'ctrlpvim/ctrlp.vim'
@@ -35,12 +38,12 @@ NeoBundle 'skalnik/vim-vroom'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'ervandew/supertab'
+" NeoBundle 'ervandew/supertab'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'henrik/vim-ruby-runner'
 NeoBundle 'skwp/vim-rspec'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'majutsushi/tagbar'
+" NeoBundle 'Shougo/vimshell'
+" NeoBundle 'majutsushi/tagbar'
 call neobundle#end()
 
 " Required:
@@ -63,7 +66,7 @@ vmap iq i"
 nmap <leader>csq f"r'F"r'
 nmap <leader>el :execute getline(".")<CR>
 " ensure that pasting in visual mode does not overwrite reg
-xnoremap p pgvy 
+xnoremap p pgvy
 
 " window resize
 nmap <C-s><Up> :resize -5<CR>
