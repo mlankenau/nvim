@@ -10,6 +10,10 @@ set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
 set noswapfile
+
+hi clear SpellBad
+hi SpellBad cterm=underline
+
 filetype plugin on
 sy on
 
