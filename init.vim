@@ -13,7 +13,7 @@ set noswapfile
 filetype plugin on
 sy on
 
-let g:RubyRunner_key = "\xzy"
+let g:RubyRunner_key = "\-0"
 let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:neomake_javascript_enabled_makers = ['eslint']
 
@@ -42,8 +42,6 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'henrik/vim-ruby-runner'
 NeoBundle 'skwp/vim-rspec'
-" NeoBundle 'Shougo/vimshell'
-" NeoBundle 'majutsushi/tagbar'
 call neobundle#end()
 
 " Required:
@@ -123,21 +121,6 @@ function GoSpec()
   endfor
 endfunction
 map \gs :call GoSpec()<CR>
-
-"function CheckElixir()
-"  let result = system("mix compile")
-"  let parts = matchlist(result, '\v\(.*Error\) ([^:]*):(\d*): (.*)')
-"  if len(parts) > 1
-"    let file = parts[1]
-"    let line = parts[2]
-"    let message = parts[3]
-"    echo file . ":" . line . ": " . message
-"    execute("e +" . line . " " . file)
-"    execute("sy on")
-"    " cal cursor(line, 1)
-"  endif
-"endfunction
-"autocmd BufWritePost *.{ex,exs} call CheckElixir()
 
 autocmd! BufWritePost *.{rb,rake,js} Neomake
 au BufNewFile,BufRead *.god set filetype=ruby
