@@ -44,8 +44,9 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'bling/vim-airline'
 " NeoBundle 'ervandew/supertab'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'henrik/vim-ruby-runner'
-NeoBundle 'skwp/vim-rspec'
+" NeoBundle 'henrik/vim-ruby-runner'
+" NeoBundle 'skwp/vim-rspec'
+NeoBundle 'slashmili/alchemist.vim'
 call neobundle#end()
 
 " Required:
@@ -90,16 +91,27 @@ nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 let g:RspecBin="bundle exec rspec"
 
 " depending on the filename (ruby file or spec run ruby or spec runner)
-function RunMyRuby()
+function Runner()
   let filename = bufname('%')
-  if  filename =~ 'spec.rb'
-    execute(":RunSpec")
+  if filename =~ 'spec.exs'
+    execute(":! mix espec % --cover")
+  elseif filename =~ 'spec.rb'
+    execute(":! rspec %")
   else
-    execute(":RunRuby")
+  endif
+endfunction
+function RunnerSpecial()
+  let filename = bufname('%')
+  if filename =~ 'spec.exs'
+    execute(":! mix espec %:" . line(".") . " --cover")
+  elseif filename =~ 'spec.rb'
+    execute(":! rspec %")
+  else
   endif
 endfunction
 
-map \r :call RunMyRuby()<CR>
+map \rr :call RunnerSpecial()<CR>
+map \r :call Runner()<CR>
 
 function GoSpec()
   let strategies = [
