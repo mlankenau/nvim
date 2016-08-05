@@ -38,7 +38,7 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'benekastah/neomake'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'elixir-lang/vim-elixir'
-NeoBundle 'skalnik/vim-vroom'
+" NeoBundle 'skalnik/vim-vroom'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'bling/vim-airline'
@@ -95,18 +95,23 @@ function Runner()
   let filename = bufname('%')
   if filename =~ 'spec.exs'
     execute(":! mix espec % --cover")
+  elseif filename =~ 'test.exs'
+    execute(":! mix test %")
   elseif filename =~ 'spec.rb'
     execute(":! rspec %")
-  else
+  elseif filename =~ '.rb'
+    execute(":! ruby %")
   endif
 endfunction
 function RunnerSpecial()
   let filename = bufname('%')
   if filename =~ 'spec.exs'
     execute(":! mix espec %:" . line(".") . " --cover")
+  elseif filename =~ 'test.exs'
+    execute(":! mix test %:" . line(".") . " --cover")
   elseif filename =~ 'spec.rb'
     execute(":! rspec %")
-  else
+  elseif filename =~ '.rb'
   endif
 endfunction
 
