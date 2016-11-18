@@ -47,6 +47,7 @@ NeoBundle 'airblade/vim-gitgutter'
 " NeoBundle 'henrik/vim-ruby-runner'
 " NeoBundle 'skwp/vim-rspec'
 NeoBundle 'slashmili/alchemist.vim'
+NeoBundle 'ivalkeen/vim-simpledb'
 call neobundle#end()
 
 " Required:
