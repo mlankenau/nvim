@@ -10,6 +10,7 @@ set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
 set noswapfile
+let NERDTreeWinSize=1
 
 hi clear SpellBad
 hi SpellBad cterm=underline
