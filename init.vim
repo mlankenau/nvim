@@ -12,6 +12,8 @@ set omnifunc=syntaxcomplete#Complete
 set noswapfile
 let NERDTreeWinSize=20
 
+let g:ctrlp_custom_ignore = {'dir': '\v\/(deps|\.git|node_modules|_build)$'}
+
 hi clear SpellBad
 hi SpellBad cterm=underline
 
@@ -45,11 +47,13 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'bling/vim-airline'
 " NeoBundle 'ervandew/supertab'
 NeoBundle 'airblade/vim-gitgutter'
-" NeoBundle 'henrik/vim-ruby-runner'
-" NeoBundle 'skwp/vim-rspec'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'ivalkeen/vim-simpledb'
+NeoBundle 'posva/vim-vue'
 call neobundle#end()
+
+set tabstop=2
+set shiftwidth=2
 
 " Required:
 filetype plugin indent on
@@ -145,5 +149,6 @@ function GoSpec()
 endfunction
 map \gs :call GoSpec()<CR>
 
+au BufNewFile,BufRead *.vue set filetype=html
 autocmd! BufWritePost *.{rb,rake,js} Neomake
 au BufNewFile,BufRead *.god set filetype=ruby
