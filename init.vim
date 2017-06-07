@@ -10,7 +10,6 @@ set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
 set noswapfile
-let NERDTreeWinSize=20
 
 let g:ctrlp_custom_ignore = {'dir': '\v\/(deps|\.git|node_modules|_build)$'}
 
@@ -23,6 +22,7 @@ sy on
 let g:RubyRunner_key = "\-0"
 let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:buffergator_sort_regime='basename'
 
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
@@ -31,25 +31,23 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'MarcWeber/vim-addon-mw-utils' " required by snipmate
-NeoBundle 'tomtom/tlib_vim'              " required by snipmate
-NeoBundle 'garbas/vim-snipmate'
+"NeoBundle 'MarcWeber/vim-addon-mw-utils' " required by snipmate
+"NeoBundle 'tomtom/tlib_vim'              " required by snipmate
+"NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jeetsukumaran/vim-buffergator'
 NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'benekastah/neomake'
+" NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundle 'benekastah/neomake'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'elixir-lang/vim-elixir'
-" NeoBundle 'skalnik/vim-vroom'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'bling/vim-airline'
-" NeoBundle 'ervandew/supertab'
+NeoBundle 'bling/vim-airline'                 " status bar
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'ivalkeen/vim-simpledb'
-NeoBundle 'posva/vim-vue'
+"NeoBundle 'posva/vim-vue'
 call neobundle#end()
 
 set tabstop=2
@@ -150,5 +148,6 @@ endfunction
 map \gs :call GoSpec()<CR>
 
 au BufNewFile,BufRead *.vue set filetype=html
-autocmd! BufWritePost *.{rb,rake,js} Neomake
+"autocmd! BufWritePost *.{rb,rake,js} Neomake
 au BufNewFile,BufRead *.god set filetype=ruby
+
