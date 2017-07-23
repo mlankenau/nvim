@@ -23,7 +23,8 @@ let g:RubyRunner_key = "\-0"
 let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:buffergator_sort_regime='basename'
-
+"let g:buffergator_display_regime = "parentdir"
+let g:buffergator_show_full_directory_path = 0
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
 
@@ -31,14 +32,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-"NeoBundle 'MarcWeber/vim-addon-mw-utils' " required by snipmate
-"NeoBundle 'tomtom/tlib_vim'              " required by snipmate
-"NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jeetsukumaran/vim-buffergator'
 NeoBundle 'ctrlpvim/ctrlp.vim'
-" NeoBundle 'vim-ruby/vim-ruby'
-" NeoBundle 'benekastah/neomake'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -47,7 +43,8 @@ NeoBundle 'bling/vim-airline'                 " status bar
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'ivalkeen/vim-simpledb'
-"NeoBundle 'posva/vim-vue'
+NeoBundle 'digitaltoad/vim-pug'
+NeoBundle 'posva/vim-vue'
 call neobundle#end()
 
 set tabstop=2
