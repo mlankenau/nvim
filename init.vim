@@ -1,5 +1,5 @@
 set background=dark
-set spell
+" set spell
 set nowrap
 set hidden
 set number
@@ -10,6 +10,8 @@ set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
 set noswapfile
+let b:did_indent = 1
+let NERDTreeIgnore = ['\.pyc$']
 
 let g:ctrlp_custom_ignore = {'dir': '\v\/(deps|\.git|node_modules|_build)$'}
 
@@ -38,15 +40,18 @@ NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'bronson/vim-trailing-whitespace'
+" NeoBundle 'bronson/vim-trailing-whitespace' " did not work,
 NeoBundle 'bling/vim-airline'                 " status bar
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'ivalkeen/vim-simpledb'
 NeoBundle 'digitaltoad/vim-pug'
 NeoBundle 'posva/vim-vue'
+NeoBundle 'ntpeters/vim-better-whitespace'
+NeoBundle 'reasonml-editor/vim-reason-plus'
 call neobundle#end()
 
+highlight ExtraWhitespace ctermbg=red
 set tabstop=2
 set shiftwidth=2
 
@@ -145,6 +150,13 @@ endfunction
 map \gs :call GoSpec()<CR>
 
 au BufNewFile,BufRead *.vue set filetype=html
-"autocmd! BufWritePost *.{rb,rake,js} Neomake
 au BufNewFile,BufRead *.god set filetype=ruby
 
+
+" Enable CursorLine
+set cursorline
+" Change Color when entering Insert Mode
+autocmd InsertEnter * highlight  CursorLine ctermfg=Red
+" ctermbg=DarkGrey 
+" Revert Color to default when leaving Insert Mode
+autocmd InsertLeave * highlight  clear
