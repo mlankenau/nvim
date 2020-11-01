@@ -1,4 +1,4 @@
-set background=dark
+"set background=dark
 " set spell
 set nowrap
 set hidden
@@ -10,10 +10,16 @@ set runtimepath^=~/.vim/bundle/neobundle.vim/
 set clipboard=unnamed
 set omnifunc=syntaxcomplete#Complete
 set noswapfile
+au BufRead,BufNewFile *.pegjs set filetype=javascript
+au BufRead,BufNewFile *.ts set filetype=typescript
+au BufRead,BufNewFile *.tsx set filetype=typescript
+
 let b:did_indent = 1
 let NERDTreeIgnore = ['\.pyc$']
 
 let g:ctrlp_custom_ignore = {'dir': '\v\/(deps|\.git|node_modules|_build)$'}
+let g:neomake_logfile = '/tmp/neomake.log'
+let g:neomake_typescript_tslint_errorformat = '%EERROR: %f:%l:%c - %m'
 
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -34,6 +40,12 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'natebosch/vim-lsc'
+NeoBundle 'natebosch/vim-lsc-dart'
+NeoBundle 'dart-lang/dart-vim-plugin'
+NeoBundle 'thosakwe/vim-flutter'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'neomake/neomake'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jeetsukumaran/vim-buffergator'
 NeoBundle 'ctrlpvim/ctrlp.vim'
@@ -43,12 +55,10 @@ NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'bronson/vim-trailing-whitespace' " did not work,
 NeoBundle 'bling/vim-airline'                 " status bar
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'slashmili/alchemist.vim'
-NeoBundle 'ivalkeen/vim-simpledb'
-NeoBundle 'digitaltoad/vim-pug'
-NeoBundle 'posva/vim-vue'
+" NeoBundle 'slashmili/alchemist.vim'
+" NeoBundle 'ivalkeen/vim-simpledb'
 NeoBundle 'ntpeters/vim-better-whitespace'
-NeoBundle 'reasonml-editor/vim-reason-plus'
+" NeoBundle 'dart-lang/dart-vim-plugin'
 call neobundle#end()
 
 highlight ExtraWhitespace ctermbg=red
@@ -61,6 +71,10 @@ filetype plugin indent on
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
+
+
+" flutter config
+let g:lsc_auto_map = v:true
 
 " key mappings
 nmap \n :NERDTreeToggle<CR>
@@ -94,69 +108,28 @@ nmap <C-Down> :wincmd j<CR>
 tnoremap <Esc> <C-\><C-n>
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 
-let g:RspecBin="bundle exec rspec"
-
-" depending on the filename (ruby file or spec run ruby or spec runner)
-function Runner()
-  let filename = bufname('%')
-  if filename =~ 'spec.exs'
-    execute(":! mix espec % --cover")
-  elseif filename =~ 'test.exs'
-    execute(":! mix test %")
-  elseif filename =~ 'spec.rb'
-    execute(":! rspec %")
-  elseif filename =~ '.rb'
-    execute(":! ruby %")
-  endif
-endfunction
-function RunnerSpecial()
-  let filename = bufname('%')
-  if filename =~ 'spec.exs'
-    execute(":! mix espec %:" . line(".") . " --cover")
-  elseif filename =~ 'test.exs'
-    execute(":! mix test %:" . line(".") . " --cover")
-  elseif filename =~ 'spec.rb'
-    execute(":! rspec %")
-  elseif filename =~ '.rb'
-  endif
-endfunction
-
-map \rr :call RunnerSpecial()<CR>
-map \r :call Runner()<CR>
-
-function GoSpec()
-  let strategies = [
-        \ {'pattern': 'app/models/\(.*\)\(.rb\)', 'prefix': 'spec/models/', 'suffix': '_spec.rb'},
-        \ {'pattern': 'app/services/\(.*\)\(.rb\)', 'prefix': 'spec/services/', 'suffix': '_spec.rb'},
-        \ {'pattern': 'app/controllers/\(.*\)\(.rb\)', 'prefix': 'spec/controllers/', 'suffix': '_spec.rb'},
-        \ {'pattern': '\(.*\)\(.rb\)', 'prefix': 'spec/', 'suffix': '_spec.rb'},
-        \ {'pattern': 'spec/models/\(.*\)\(_spec.rb\)', 'prefix': 'app/models/', 'suffix': '.rb'},
-        \ {'pattern': 'spec/services/\(.*\)\(_spec.rb\)', 'prefix': 'app/services/', 'suffix': '.rb'},
-        \ {'pattern': 'spec/controllers/\(.*\)\(_spec.rb\)', 'prefix': 'app/controllers/', 'suffix': '.rb'},
-        \ {'pattern': 'spec/\(.*\)\(_spec.rb\)', 'prefix': '', 'suffix': '.rb'} ]
-  let filename = bufname('%')
-
-  for p in strategies
-    let parts = matchlist(filename, p.pattern)
-    if len(parts) > 1
-      let spec_file = p.prefix . parts[1] . p.suffix
-      if filereadable(spec_file)
-        execute("e " . spec_file)
-        return
-      endif
-    endif
-  endfor
-endfunction
-map \gs :call GoSpec()<CR>
-
-au BufNewFile,BufRead *.vue set filetype=html
-au BufNewFile,BufRead *.god set filetype=ruby
-
-
 " Enable CursorLine
 set cursorline
 " Change Color when entering Insert Mode
-autocmd InsertEnter * highlight  CursorLine ctermfg=Red
+"autocmd InsertEnter * highlight  CursorLine ctermfg=Red
 " ctermbg=DarkGrey 
 " Revert Color to default when leaving Insert Mode
-autocmd InsertLeave * highlight  clear
+"autocmd InsertLeave * highlight  clear
+
+
+" When writing a buffer (no delay).
+"call neomake#configure#automake('w')
+" When writing a buffer (no delay), and on normal mode changes (after 750ms).
+"call neomake#configure#automake('nw', 750)
+" When reading a buffer (after 1s), and when writing (no delay).
+"call neomake#configure#automake('rw', 1000)
+" Full config: when writing or reading a buffer, and on changes in insert and
+" normal mode (after 1s; no delay when writing).
+" call neomake#configure#automake('nrwi', 500)
+
+"call neomake#configure#automake('rw')
+
+hi! Cursor ctermfg=1 ctermbg=1 guifg=#60aF60 guibg=#60aF60
+set termguicolors
+set guicursor=n-c-v:block-Cursor/Cursor-blinkon0
+set guicursor+=i-ci:ver1-Cursor/Cursor-blinkwait300-blinkon200-blinkoff150
